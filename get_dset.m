@@ -7,10 +7,13 @@ outFileName = 'BubblesProtocol.txt';
 rppath = './dset/';
 conCodes = {'happyCorrect/', 'happyIncorrect/', 'happyNeutralCorrect/', 'happyNeutralIncorrect/', ...
             'sadCorrect/', 'sadIncorrect/', 'sadNeutralCorrect/', 'sadNeutralIncorrect/'};
+
+tfolders = dir('./dset/');
+if ~all(ismember(conCodes, strcat({tfolders.name}, '/')))
 for k = 1:numel(conCodes)
     mkdir(['./dset/' ,conCodes{k}]);    
 end
-
+end
 
 load ('../raw/BubblesRawData_zwisch.mat', 'rawData');
 picfilename = ['..\..\', rawData(1).stmfile]; % 'p5_struct_npic_470x349.mat'
@@ -23,15 +26,16 @@ patches = get_patches_ml(rawData(1).facedims, mids, rawData(1).num_cycles, rawDa
 get_resp_planes_ml(rawData, rppath, vp_selection, patches, npic, outFileName, conCodes); % write to disk
 
 facepath = [rppath, 'faces/'];
+if ~ismember('faces', {tfolders.name})
 mkdir(facepath);
+end
 for pic = 1 : size(npic, 1)
 for scale = 1 : size(npic, 2)
-picText = num2str(pic  + 1000 * scale);
+picText = ['f', num2str(pic  + 1000 * scale)];
 face = npic{pic, scale} + 127;
 save([facepath, picText, '.mat'], 'face'); 
 end
 end
-
 
 
 % 1: NE-HA happy + correct 
