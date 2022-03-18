@@ -30,7 +30,8 @@ rawData(vp).b_dims{trial}{scale} = bubble_dims;
 rawData(vp).f_coords{trial}{scale} = face_coords;
 rp = add_alphaplane(patches{scale}, npic{1}, rawData(vp).b_centers{trial}{scale}, rawData(vp).b_dims{trial}{scale}, rawData(vp).f_coords{trial}{scale}); %one patch size at a time
 rp(rp > max_alpha) = max_alpha;
-save([rppath, conCodes{rawData(vp).outmat(trial,17)}, 'rp', nPadded, '.mat'], 'rp'); clear rp
+%save([rppath, conCodes{rawData(vp).outmat(trial,17)}, 'rp', nPadded, '.mat'], 'rp'); clear rp
+imwrite(rp, [rppath, conCodes{rawData(vp).outmat(trial,17)}, 'rp', nPadded, '.png'], 'PNG'); clear rp
 if rawData(vp).outmat(trial,17) > 4 % condition 'sad'
 picNumber = rawData(vp).outmat(trial,3) + 60;
 else

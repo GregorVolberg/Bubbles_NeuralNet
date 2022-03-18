@@ -29,11 +29,12 @@ facepath = [rppath, 'faces/'];
 if ~ismember('faces', {tfolders.name})
 mkdir(facepath);
 end
-for pic = 1 : size(npic, 1)
+for pic = 1 : 5%size(npic, 1)
 for scale = 1 : size(npic, 2)
 picText = ['f', num2str(pic  + 1000 * scale)];
 face = npic{pic, scale} + 127;
-save([facepath, picText, '.mat'], 'face'); 
+%save([facepath, picText, '.mat'], 'face'); 
+imwrite(face/255, [facepath, picText, '.png'], 'PNG')
 end
 end
 
