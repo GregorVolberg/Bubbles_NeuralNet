@@ -1,6 +1,7 @@
 % machine learning cooperation with Jens, Philipp, Alex
 % uses BubbblesRawData_zwisch
-vp_selection = {'S07'};
+vp_selection = {'S31', 'S32', 'S35', 'S36', ...
+                'S37', 'S41', 'S45', 'S46'};
 
 addpath('./func');
 outFileName = 'BubblesProtocol.txt';
@@ -29,7 +30,17 @@ facepath = [rppath, 'faces/'];
 if ~ismember('faces', {tfolders.name})
 mkdir(facepath);
 end
-for pic = 1 : 5%size(npic, 1)
+
+% select unique pics from 120 npics
+tmp = load(picfilename);
+faceNames = tmp.struct_npic.names; clear tmp
+for k = 1:numel(faceNames)
+woPath{k} = faceNames{k}((end-14):(end));
+end
+
+[uniqueFaces, indx1, indx2] = unique(woPath, 'stable');
+
+for pic = 1 : size(npic, 1)
 for scale = 1 : size(npic, 2)
 picText = ['f', num2str(pic  + 1000 * scale)];
 face = npic{pic, scale} + 127;
